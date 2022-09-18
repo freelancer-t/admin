@@ -13,8 +13,6 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   config => {
-    // do something before request is sent
-
     if (store.getters.token) {
       config.headers['Authorization'] = `Bearer ${getToken()}`
     }
@@ -22,17 +20,13 @@ service.interceptors.request.use(
     return config
   },
   error => {
-    // do something with request error
-    console.log(error) // for debug
     return Promise.reject(error)
   }
 )
 
-// response interceptor
 service.interceptors.response.use(
   response => {
     const res = response.data
-    // if the custom code is not 20000, it is judged as an error.
     if (res.status > 300 || res.status < 200) {
       Message({
         message: res.message || 'Error',
@@ -40,29 +34,20 @@ service.interceptors.response.use(
         duration: 5 * 1000
       })
 
-      // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.status === 401 || res.status === 419) {
-        store.dispatch('user/resetToken')
-        window.location.href = '/login'
-        // MessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
-        //   confirmButtonText: 'Re-Login',
-        //   cancelButtonText: 'Cancel',
-        //   type: 'warning'
-        // }).then(() => {
-        //   store.dispatch('user/resetToken').then(() => {
-        //     location.reload()
-        //   })
-        // })
-      } else if (res.status === 404) {
-        window.location.href = '/404'
-      }
-
       return Promise.reject(new Error(res.message || 'Error'))
     } else {
       return res
     }
   },
   error => {
+    const status = error.response.status
+
+    if (status === 401 || status === 419) {
+      store.dispatch('user/resetToken')
+    } else if (status === 404) {
+      window.location.href = '/404'
+    }
+
     const message = error.response.data.message || error.message
 
     Message({

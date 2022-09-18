@@ -15,8 +15,7 @@
 
 <script>
 export default {
-  name: 'ErrorLog',
-  components: { ErrorA, ErrorB }
+  name: 'ErrorLog'
 }
 </script>
 
