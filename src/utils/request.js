@@ -43,9 +43,9 @@ service.interceptors.response.use(
     const status = error.response.status
 
     if (status === 401 || status === 419) {
-      store.dispatch('user/resetToken')
+      store.dispatch('user/logout')
     } else if (status === 404) {
-      window.location.href = '/404'
+      store.dispatch('app/notFound')
     }
 
     const message = error.response.data.message || error.message

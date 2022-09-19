@@ -14,6 +14,7 @@ export const constantRoutes = [
   },
 
   {
+    name: '404',
     path: '/404',
     component: () => import('@/views/404'),
     hidden: true
