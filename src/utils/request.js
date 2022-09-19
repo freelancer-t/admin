@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Message } from 'element-ui'
+import { Message, Loading } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
@@ -43,7 +43,7 @@ service.interceptors.response.use(
     const status = error.response.status
 
     if (status === 401 || status === 419) {
-      store.dispatch('user/logout')
+      store.dispatch('user/resetToken')
     } else if (status === 404) {
       store.dispatch('app/notFound')
     }
@@ -55,6 +55,8 @@ service.interceptors.response.use(
       type: 'error',
       duration: 5 * 1000
     })
+
+    Loading.service().close()
     return Promise.reject(error)
   }
 )

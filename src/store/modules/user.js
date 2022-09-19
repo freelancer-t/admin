@@ -77,6 +77,7 @@ const actions = {
     return new Promise(resolve => {
       removeToken() // must remove  token  first
       commit('RESET_STATE')
+      router.push({ name: 'login' })
       resolve()
     })
   }
