@@ -53,7 +53,7 @@
             <el-input v-model="form.soft_description" type="textarea" />
           </el-form-item>
           <el-form-item label="Mô tả ngắn" :error="errorField('description')" prop="description">
-            <form-editor v-model="form.description" />
+            <form-editor v-model="form.description" @deleteImage="imageDeleteDesciption" />
           </el-form-item>
           <el-form-item label="Sản phẩm hot ?" :error="errorField('is_hot')" prop="is_hot">
             <el-checkbox v-model="form.is_hot" name="type" />
@@ -155,7 +155,8 @@ export default {
           }
         ],
         images: [],
-        image_deleted: []
+        image_deleted: [],
+        image_delete_desciptions: []
       },
       rules: {
         name: [
@@ -187,9 +188,16 @@ export default {
           ...val,
           category_ids: val.categories.map(i => i.id),
           keyword: val.keyword ? val.keyword.split(',') : [],
-          image_deleted: []
+          image_deleted: [],
+          image_delete_desciptions: []
         }
         this.fileList = val.images.map(({ id, url }) => ({ id, url }))
+
+        for (const [k] of Object.entries(this.form)) {
+          if (this.form[k] == null) {
+            this.form[k] = ''
+          }
+        }
       },
       deep: true
     }
@@ -253,6 +261,9 @@ export default {
       if (index !== -1) {
         this.$refs.upload.uploadFiles.splice(this.$refs.upload.uploadFiles.findIndex(f => f.url === file.url), 1)
       }
+    },
+    imageDeleteDesciption(url) {
+      this.form.image_delete_desciptions.push(url)
     }
   }
 }

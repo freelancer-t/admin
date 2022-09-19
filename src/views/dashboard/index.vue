@@ -41,7 +41,9 @@ export default {
       recentOrders: [],
       options: [
         { label: 'Tuần này', value: 1 },
-        { label: 'Năm này', value: 2 }
+        { label: 'Tháng này', value: 2 },
+        { label: 'Tháng trước', value: 3 },
+        { label: 'Năm này', value: 4 }
       ],
       value: 1
     }

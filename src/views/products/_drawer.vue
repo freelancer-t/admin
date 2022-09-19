@@ -57,7 +57,7 @@
             </tr>
             <tr>
               <td>Nội dung</td>
-              <td v-html="product.description" />
+              <td> <el-button type="primary" size="mini" @click="openDialog = true">Xem nội dung</el-button></td>
             </tr>
             <tr>
               <td>Loại</td>
@@ -83,13 +83,20 @@
         </div>
       </el-card>
     </el-drawer>
+    <DialogContent
+      :content="product.description"
+      :center-dialog-visible="openDialog"
+      @close="openDialog = false"
+    />
   </div>
 </template>
 <script>
 import { numberWithCommas } from '@/utils/index'
+import DialogContent from './_dialog-content.vue'
 
 export default {
   name: 'DrawerProduct',
+  components: { DialogContent },
   props: {
     product: {
       type: Object,
@@ -102,7 +109,8 @@ export default {
   },
   data() {
     return {
-      open: false
+      open: false,
+      openDialog: false
     }
   },
   watch: {

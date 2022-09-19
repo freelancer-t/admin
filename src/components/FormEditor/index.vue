@@ -101,6 +101,7 @@ export default {
     },
     initTinymce() {
       const _this = this
+
       window.tinymce.init({
         selector: `#${this.tinymceId}`,
         height: this.height,
@@ -128,6 +129,47 @@ export default {
             this.hasChange = true
             this.$emit('input', editor.getContent())
           })
+          let imageElements = []
+
+          editor.on('KeyDown', (e) => {
+            if ((e.keyCode === 8 || e.keyCode === 46) && editor.selection) {
+              const selectedNode = editor.selection.getNode()
+              if (selectedNode && selectedNode.nodeName === 'IMG') {
+                this.$emit('deleteImage', selectedNode.src)
+              } else {
+                imageElements = document.querySelector('.tinymce-container iframe')
+                  .contentWindow.document
+                  .getElementsByTagName('img')
+
+                console.log(imageElements)
+              }
+            }
+          })
+
+          // editor.on('KeyUp', (e) => {
+          //   if ((e.keyCode === 8 || e.keyCode === 46) && editor.selection) {
+          //     var selectedNode = editor.selection.getNode()
+          //     if (selectedNode && selectedNode.nodeName === 'IMG') {
+          //       this.$emit('deleteImage', selectedNode.src)
+          //     } else {
+          //       const elementImage = editor.selection.getNode().getElementsByTagName('img')
+          //       if (elementImage.length) {
+          //         const oldImageContent = []
+          //         const newImageInContent = []
+
+          //         for (const item of imageElements) {
+          //           oldImageContent.push(item.src)
+          //         }
+
+          //         for (const item of elementImage) {
+          //           newImageInContent.push(item.src)
+          //         }
+
+          //         console.log(oldImageContent, newImageInContent)
+          //       }
+          //     }
+          //   }
+          // })
         },
         setup(editor) {
           editor.on('FullscreenStateChanged', (e) => {
@@ -135,38 +177,6 @@ export default {
           })
         },
         convert_urls: false
-        // images_dataimg_filter(img) {
-        //   setTimeout(() => {
-        //     const $image = $(img);
-        //     $image.removeAttr('width');
-        //     $image.removeAttr('height');
-        //     if ($image[0].height && $image[0].width) {
-        //       $image.attr('data-wscntype', 'image');
-        //       $image.attr('data-wscnh', $image[0].height);
-        //       $image.attr('data-wscnw', $image[0].width);
-        //       $image.addClass('wscnph');
-        //     }
-        //   }, 0);
-        //   return img
-        // },
-        // images_upload_handler(blobInfo, success, failure, progress) {
-        //   progress(0);
-        //   const token = _this.$store.getters.token;
-        //   getToken(token).then(response => {
-        //     const url = response.data.qiniu_url;
-        //     const formData = new FormData();
-        //     formData.append('token', response.data.qiniu_token);
-        //     formData.append('key', response.data.qiniu_key);
-        //     formData.append('file', blobInfo.blob(), url);
-        //     upload(formData).then(() => {
-        //       success(url);
-        //       progress(100);
-        //     })
-        //   }).catch(err => {
-        //     failure('出现未知问题，刷新页面，或者联系程序员')
-        //     console.log(err);
-        //   });
-        // },
       })
     },
     destroyTinymce() {
@@ -211,7 +221,6 @@ export default {
   position: absolute;
   right: 4px;
   top: 4px;
-  /*z-index: 2005;*/
 }
 .fullscreen .editor-custom-btn-container {
   z-index: 10000;

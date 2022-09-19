@@ -32,6 +32,8 @@ export default {
       for (const key in data) {
         if (key === 'images') {
           data[key].forEach((f, idx) => formData.append(`images[${idx}]`, f.raw ?? f.url))
+        } else if (key === 'image_delete_desciptions') {
+          data[key].forEach((url, idx) => formData.append(`image_delete_desciptions[${idx}]`, url))
         } else if (key === 'product_unit_stocks') {
           data[key].forEach((s, idx) => {
             for (const [k, v] of Object.entries(s)) {

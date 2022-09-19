@@ -11,25 +11,28 @@
         :on-remove="handleRemove"
         :on-success="handleSuccess"
         :before-upload="beforeUpload"
+        :headers="headers"
         class="editor-slide-upload"
-        action="https://httpbin.org/post"
+        action="http://localhost/api/v1/products/upload-file"
         list-type="picture-card"
       >
         <el-button size="small" type="primary">
-          Click upload
+          Chọn file
         </el-button>
       </el-upload>
       <el-button @click="dialogVisible = false">
-        Cancel
+        Huỷ
       </el-button>
       <el-button type="primary" @click="handleSubmit">
-        Confirm
+        Đồng ý
       </el-button>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import { getToken } from '@/utils/auth'
+
 export default {
   name: 'EditorSlideUpload',
   props: {
@@ -42,7 +45,10 @@ export default {
     return {
       dialogVisible: false,
       listObj: {},
-      fileList: []
+      fileList: [],
+      headers: {
+        'Authorization': `Bearer ${getToken()}`
+      }
     }
   },
   methods: {
@@ -60,12 +66,12 @@ export default {
       this.fileList = []
       this.dialogVisible = false
     },
-    handleSuccess(response, file) {
+    handleSuccess({ data }, file) {
       const uid = file.uid
       const objKeyArr = Object.keys(this.listObj)
       for (let i = 0, len = objKeyArr.length; i < len; i++) {
         if (this.listObj[objKeyArr[i]].uid === uid) {
-          this.listObj[objKeyArr[i]].url = response.files.file
+          this.listObj[objKeyArr[i]].url = data.files.file
           this.listObj[objKeyArr[i]].hasSuccess = true
           return
         }
