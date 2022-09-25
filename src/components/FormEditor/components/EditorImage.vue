@@ -13,7 +13,7 @@
         :before-upload="beforeUpload"
         :headers="headers"
         class="editor-slide-upload"
-        action="http://localhost/api/v1/products/upload-file"
+        action="https://haisanmiennam.vn/api/v1/products/upload-file"
         list-type="picture-card"
       >
         <el-button size="small" type="primary">

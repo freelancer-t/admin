@@ -120,6 +120,10 @@ export default {
         if (valid) {
           this.btnLoading = true
           this.$emit('submit', this.form)
+          setTimeout(() => {
+            this.btnLoading = false
+            this.resetForm()
+          }, 500)
         } else {
           return false
         }

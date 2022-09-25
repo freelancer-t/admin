@@ -143,6 +143,42 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/comments',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'comment_index',
+        component: () => import('@/views/comments/index'),
+        meta: { title: 'Quản lý bình luận', icon: 'el-icon-s-comment' }
+      }
+    ]
+  },
+  {
+    path: '/tele-sales',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'tele_sale_index',
+        component: () => import('@/views/tele_sales/index'),
+        meta: { title: 'Dành cho tele sale', icon: 'el-icon-phone-outline' }
+      }
+    ]
+  },
+  {
+    path: '/setting',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'setting_index',
+        component: () => import('@/views/settings/index'),
+        meta: { title: 'Cài đặt', icon: 'el-icon-setting' }
+      }
+    ]
+  },
   { path: '401', name: '401', redirect: '/404', hidden: true },
   { path: '*', redirect: '/404', hidden: true }
 ]
