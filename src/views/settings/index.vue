@@ -4,6 +4,18 @@
       <el-form-item label="Sologan header">
         <el-input v-model="form.sologan" type="textarea" />
       </el-form-item>
+      <el-form-item label="Link youtube">
+        <el-input v-model="form.youtube" />
+      </el-form-item>
+      <el-form-item label="Link instagram">
+        <el-input v-model="form.instagram" />
+      </el-form-item>
+      <el-form-item label="Link tiktok">
+        <el-input v-model="form.tiktok" />
+      </el-form-item>
+      <el-form-item label="Link zalo">
+        <el-input v-model="form.zalo" />
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">Cập nhật</el-button>
         <el-button>Huỷ</el-button>
@@ -19,7 +31,11 @@ export default {
   data() {
     return {
       form: {
-        sologan: ''
+        sologan: '',
+        youtube: '',
+        tiktok: '',
+        instagram: '',
+        zalo: ''
       }
     }
   },
