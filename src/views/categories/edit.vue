@@ -38,7 +38,18 @@ export default {
     },
     async onSubmit(data) {
       const load = loading()
-      await updateCategory(data.id, data)
+      const formData = new FormData()
+
+      if (data['icon'] === undefined) {
+        delete data.icon
+      }
+
+      formData.append('_method', 'PUT')
+      for (const key in data) {
+        formData.append(key, key === 'icon' ? data[key].raw : data[key])
+      }
+
+      await updateCategory(data.id, formData)
         .then(({ message }) => {
           this.$message({
             type: 'success',

@@ -9,6 +9,19 @@
     <el-form-item label="Vị trí" prop="order" :error="errorField('order')">
       <el-input v-model="form.order" />
     </el-form-item>
+    <el-form-item label="Icon" prop="icon" :error="errorField('icon')">
+      <el-upload
+        ref="upload"
+        drag
+        :file-list="fileList"
+        action="#"
+        :auto-upload="false"
+        accept="image/jpg,image/png,image/jpeg,images/webp"
+      >
+        <i class="el-icon-upload" />
+        <div class="el-upload__text">Chọn icon <em>kích để tải icon</em></div>
+      </el-upload>
+    </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submit">{{ category.name.length ? 'Cập nhật' : 'Tạo mới' }}</el-button>
       <el-button @click="onCancel">Huỷ</el-button>
@@ -28,12 +41,9 @@ export default {
       default: () => ({
         name: '',
         slug: '',
-        order: 0
+        order: 0,
+        icon: ''
       })
-    },
-    onSubmit: {
-      type: Function,
-      default: () => []
     }
   },
   data() {
@@ -41,7 +51,8 @@ export default {
       form: {
         name: '',
         slug: '',
-        order: 0
+        order: 0,
+        icon: null
       },
       rules: {
         name: [
@@ -54,7 +65,8 @@ export default {
           { required: true, message: 'Vui lòng điền số thứ tự', trigger: 'blur' }
         ]
       },
-      isLoading: false
+      isLoading: false,
+      fileList: []
     }
   },
   computed: {
@@ -65,6 +77,7 @@ export default {
   watch: {
     category: function(newVal) {
       this.form = { ...newVal }
+      this.fileList = [{ id: newVal.id, url: newVal.icon, name: newVal.name }]
     },
     name(val) {
       this.form.slug = convertToSlug(val)
@@ -77,6 +90,7 @@ export default {
     submit() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
+          this.form.icon = this.$refs.upload.uploadFiles[this.$refs.upload.uploadFiles.length - 1]
           this.$emit('onSubmit', this.form)
         } else {
           return false

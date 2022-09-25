@@ -18,7 +18,7 @@ export function fetchCategory(id) {
 export function updateCategory(id, data) {
   return request({
     url: `/categories/${id}`,
-    method: 'put',
+    method: 'post',
     data
   })
 }

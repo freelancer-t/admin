@@ -20,7 +20,8 @@ export default {
       form: {
         name: '',
         slug: '',
-        order: 0
+        order: 0,
+        icon: null
       },
       errors: {},
       isLoading: false
@@ -29,7 +30,13 @@ export default {
   methods: {
     async onSubmit(data) {
       const load = loading()
-      await createCategory(data)
+      const formData = new FormData()
+
+      for (const key in data) {
+        formData.append(key, key === 'icon' ? data[key].raw : data[key])
+      }
+
+      await createCategory(formData)
         .then(({ message }) => {
           this.$message({
             type: 'success',

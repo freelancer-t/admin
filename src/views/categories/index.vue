@@ -21,6 +21,11 @@
           {{ scope.row.id }}
         </template>
       </el-table-column>
+      <el-table-column label="Icon">
+        <template slot-scope="scope">
+          <img :src="scope.row.icon" class="image" width="50">
+        </template>
+      </el-table-column>
       <el-table-column label="Tên danh mục">
         <template slot-scope="scope">
           {{ scope.row.name }}
@@ -63,16 +68,6 @@ import { getList, deleteCategory, updateOrder } from '@/api/category'
 import { loading } from '@/utils/index'
 
 export default {
-  filters: {
-    statusFilter(status) {
-      const statusMap = {
-        published: 'success',
-        draft: 'gray',
-        deleted: 'danger'
-      }
-      return statusMap[status]
-    }
-  },
   data() {
     return {
       list: [],

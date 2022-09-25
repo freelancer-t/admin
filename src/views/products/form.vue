@@ -121,6 +121,7 @@ import { formMixin } from '@/mixin/common'
 import { getList as getCategories } from '@/api/category'
 import FormEditor from '@/components/FormEditor/index'
 import ProductUnitStock from './_product_unit_stock.vue'
+import { convertToSlug } from '@/utils/index'
 
 export default {
   name: 'FormProduct',
@@ -179,6 +180,9 @@ export default {
   computed: {
     isRenderStocks() {
       return this.$route.name === 'products_create' || this.form.product_unit_stocks[0].id
+    },
+    name() {
+      return this.form.name
     }
   },
   watch: {
@@ -200,6 +204,9 @@ export default {
         }
       },
       deep: true
+    },
+    name(val) {
+      this.form.slug = convertToSlug(val)
     }
   },
   async created() {
