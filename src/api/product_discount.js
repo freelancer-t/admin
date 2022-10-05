@@ -33,7 +33,7 @@ export function createProductDiscount(data) {
 
 export function deleteProductDiscount(id) {
   return request({
-    url: `/coupons/${id}`,
+    url: `/product_discounts/${id}`,
     method: 'delete'
   })
 }
